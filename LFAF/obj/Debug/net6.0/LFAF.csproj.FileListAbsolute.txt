@@ -1,0 +1,15 @@
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\bin\Debug\net6.0\LFAF.exe
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\bin\Debug\net6.0\LFAF.deps.json
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\bin\Debug\net6.0\LFAF.runtimeconfig.json
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\bin\Debug\net6.0\LFAF.dll
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\bin\Debug\net6.0\LFAF.pdb
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\LFAF.csproj.AssemblyReference.cache
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\LFAF.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\LFAF.AssemblyInfoInputs.cache
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\LFAF.AssemblyInfo.cs
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\LFAF.csproj.CoreCompileInputs.cache
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\LFAF.dll
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\refint\LFAF.dll
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\LFAF.pdb
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\LFAF.genruntimeconfig.cache
+C:\Users\PC\Desktop\sem4\Labs-semester-4\LFAF\obj\Debug\net6.0\ref\LFAF.dll
