@@ -1,4 +1,6 @@
-namespace LFAF
+using System;
+
+namespace src
 {
     class Grammar
     {

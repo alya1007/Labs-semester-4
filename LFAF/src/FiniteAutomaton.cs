@@ -1,4 +1,4 @@
-namespace LFAF
+namespace src
 {
     class FiniteAutomaton
     {
