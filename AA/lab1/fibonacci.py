@@ -52,12 +52,12 @@ def fibonacci_matrix(n):
         A = [[1, 1], [1, 0]]
         F = power(A, n - 1)
         return F[0][0]
-    
 
-def fib_memo(n, cache={0:0, 1:1}): 
-    if n in cache: 
+
+def fib_memo(n, cache={0: 0, 1: 1}):
+    if n in cache:
         return cache[n]
-    cache[n] = fib_memo(n - 1, cache) + fib_memo(n - 2, cache) 
+    cache[n] = fib_memo(n - 1, cache) + fib_memo(n - 2, cache)
     return cache[n]
 
 
@@ -114,7 +114,7 @@ def drawGraph(x, y):
 
 if __name__ == "__main__":
     x = [5, 7, 10, 12, 15, 17, 20, 22, 25, 27, 30, 32, 35,
-        37, 40, 42, 45]
+         37, 40, 42, 45]
 
     # x = [501, 631, 794, 1000,
     #     1259, 1585, 1995, 2512, 3162,
