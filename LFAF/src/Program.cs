@@ -31,7 +31,7 @@ namespace src
             // }
 
             // Test the CanGenerateString method for some strings
-            var inputs = new List<string> { "abbbbac", "aac", "abbaaaabbbbac", "asdss", "", "abb" };
+            var inputs = new List<string> { "abbabaaaaaabbbaaaaaabbbbaaaaaabbaaabbac", "aac", "abac", "asdss", "", "abb" };
             foreach (var input in inputs)
             {
                 var canGenerate = automaton.CanGenerateString(input);

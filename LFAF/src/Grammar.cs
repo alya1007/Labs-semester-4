@@ -123,7 +123,7 @@ namespace src
             var transitions = GetTransitions(Rules);
             var finalStates = "";
 
-            // Convert transitions and final states to string
+            // Convert states and final states to string
             // because the FiniteAutomaton class constructor expects strings
             List<string> stringStates = states.Select(c => c.ToString()).ToList();
             List<string> stringFinalStates = new List<string> { finalStates };
