@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace src
 {
     class Grammar
@@ -12,7 +11,6 @@ namespace src
         public List<char> TerminalSymbols { get; set; }
         public char StartingSymbol { get; set; }
         public Dictionary<char, List<string>> Rules { get; set; }
-
         public Grammar(List<char> nonTerminalSymbols, List<char> terminalSymbols, char startingSymbol, Dictionary<char, List<string>> rules)
         {
             NonTerminalSymbols = nonTerminalSymbols;
@@ -20,7 +18,6 @@ namespace src
             StartingSymbol = startingSymbol;
             Rules = rules;
         }
-
         public string GenerateString()
         {
             var random = new Random();
@@ -50,6 +47,8 @@ namespace src
 
             return generatedString;
         }
+
+        // Method to convert a grammar rules into transitions for a finite automaton
         static public Dictionary<(string, char), string> GetTransitions(Dictionary<char, List<string>> rules)
         {
             var transitions = new Dictionary<(string, char), string>();
@@ -123,10 +122,12 @@ namespace src
             string initialState = "S";
             var transitions = GetTransitions(Rules);
             var finalStates = "";
+
+            // Convert transitions and final states to string
+            // because the FiniteAutomaton class constructor expects strings
             List<string> stringStates = states.Select(c => c.ToString()).ToList();
             List<string> stringFinalStates = new List<string> { finalStates };
             return new FiniteAutomaton(stringStates, alphabet, transitions, initialState, stringFinalStates);
-
         }
     }
 }
