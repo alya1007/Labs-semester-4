@@ -172,13 +172,10 @@ def main():
     for i in range(500, 7001, 500):
         arrays.append(generate_random_array(i))
         x.append(i)
-    # show_results(x, arrays, merge_sort)
-    # show_results(x, arrays, quicksort)
-    # show_results(x, arrays, heap_sort)
+    show_results(x, arrays, merge_sort)
+    show_results(x, arrays, quicksort)
+    show_results(x, arrays, heap_sort)
     show_results(x, arrays, counting_sort)
-    # arr = [-13, 2424, -1929, 49499, 333, 212, 23489]
-    # print('arr: ', arr)
-    # print('quicksort: ', quicksort(arr))
 
 
 if __name__ == "__main__":
