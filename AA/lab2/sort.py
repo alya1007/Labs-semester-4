@@ -56,6 +56,75 @@ def quicksort(arr):
     return quicksort(left) + equal + quicksort(right)
 
 
+def heap_sort(arr):
+    # Build a max heap from the input array
+    def build_max_heap(arr):
+        n = len(arr)
+        # Starting from the last non-leaf node, heapify all nodes in the tree
+        for i in range(n // 2 - 1, -1, -1):
+            heapify(arr, n, i)
+    # Heapify a subtree rooted at index i
+
+    def heapify(arr, n, i):
+        largest = i
+        left = 2 * i + 1
+        right = 2 * i + 2
+        # If the left child is larger than the parent
+        if left < n and arr[left] > arr[largest]:
+            largest = left
+        # If the right child is larger than the largest so far
+        if right < n and arr[right] > arr[largest]:
+            largest = right
+        # If the largest element is not the root
+        if largest != i:
+            # Swap the root with the largest element
+            arr[i], arr[largest] = arr[largest], arr[i]
+            # Heapify the affected subtree
+            heapify(arr, n, largest)
+
+    # Make a copy of the input array to avoid modifying it
+    arr = arr.copy()
+    n = len(arr)
+    # Build a max heap from the input array
+    build_max_heap(arr)
+    # Repeatedly extract the maximum element from the heap and add it to the sorted portion of the output array
+    for i in range(n - 1, 0, -1):
+        # Swap the root with the last element in the heap
+        arr[0], arr[i] = arr[i], arr[0]
+        # Heapify the reduced heap
+        heapify(arr, i, 0)
+    return arr
+
+
+def counting_sort(arr):
+    # Find the range of the input array
+    max_val = float('-inf')
+    min_val = float('inf')
+    for val in arr:
+        if val > max_val:
+            max_val = val
+        if val < min_val:
+            min_val = val
+
+    # Create a frequency array to store the count of each distinct element in the input array
+    freq = [0] * (int(max_val - min_val) + 1)
+    for val in arr:
+        freq[int(val - min_val)] += 1
+
+    # Calculate the cumulative sum array by summing up the frequency array elements
+    cum_sum = [freq[0]]
+    for i in range(1, len(freq)):
+        cum_sum.append(cum_sum[-1] + freq[i])
+
+    # Construct the sorted output array by placing each input element in its sorted position based on the cumulative sum array
+    sorted_arr = [0] * len(arr)
+    for val in arr:
+        sorted_arr[cum_sum[int(val - min_val)] - 1] = val
+        cum_sum[int(val - min_val)] -= 1
+
+    return sorted_arr
+
+
 def generate_random_array(size):
     import random
     arr = []
@@ -103,8 +172,10 @@ def main():
     for i in range(500, 7001, 500):
         arrays.append(generate_random_array(i))
         x.append(i)
-    show_results(x, arrays, merge_sort)
-    show_results(x, arrays, quicksort)
+    # show_results(x, arrays, merge_sort)
+    # show_results(x, arrays, quicksort)
+    # show_results(x, arrays, heap_sort)
+    show_results(x, arrays, counting_sort)
     # arr = [-13, 2424, -1929, 49499, 333, 212, 23489]
     # print('arr: ', arr)
     # print('quicksort: ', quicksort(arr))
