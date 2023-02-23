@@ -117,6 +117,7 @@ VAR CASE = 0
     {
         - CASE == 3:
             After some time of thinking, Yuna said: "The evidence clearly shows that this is a case related to The Artist. The officer behavior is extremely suspicion"
+            ~SAFENESS--
             ~CASE++
             SOLVING THE CASE = {CASE}
             
@@ -125,7 +126,7 @@ VAR CASE = 0
     **Go to the police station
         ->Scene_4_1
     **Stay at home
-        ->END
+        ->Scene_4_2
     
 
 
@@ -155,13 +156,15 @@ VAR CASE = 0
         SAFENESS = {SAFENESS}
         You do realize that this case is related to The Artist, right?" - as she said this phrase, Yuna noticed a terrifying glance from the officer.
         "The Artist..." - he paused for a moment - "just because all the media is talking about him right now, it doesn't mean that you need to connect every odd case to this <i>monster</i>"
-        Yuna found his change of the intonation very disturbing. <i>"I have a feeling that I don't have to trust him"</i> - her thoughts were interrupted:
+        ~CASE++
+        SOLVING THE CASE = {CASE}
+    -else:
+        "All the evidence led to this conclusion."
+    }
+    Yuna found his change of the intonation very disturbing. <i>"I have a feeling that I don't have to trust him"</i> - her thoughts were interrupted:
         "However, it's a late hour. You came here just as I was thinking about leaving home." - his face warped in a peculiar smile.
         "I can give you a lift if you want."
         ->Scene_4_1_CHOICE
-
-    }
-    
 
 ->END
 
@@ -175,12 +178,36 @@ VAR CASE = 0
 
 === Scene_4_1_ACCEPT_RIDE ===
     ~SAFENESS--
+    ~CASE++
     SAFENESS = {SAFENESS}
-
+    SOLVING THE CASE = {CASE}
 ->END
 
 === Scene_4_1_DECLINE_RIDE ===
+    ~CASE--
+    SOLVING THE CASE = {CASE}
+    <i>"No way I'm going with him"</i> - Yuna thought, as her gut feeling told her to cautious around this man.
+    "That's kind of you! But I'll better take a taxi."
+    An anxious foreboding followed her all the way home, and it confirmed as soon as she got out of the car.
+    "What are you doing here? And how did you know my address?"
+    The panic was increasing as Yuna looked right in the eyes of Mr. Black.
+    "I'm a police officer and that's not a big deal for me." - Suddenly, he smiled as his tone became more frightening - "But this is not what you should be concerned now." - some moments of terrifying silence - "Get in my car."
+    ~SAFENESS--
+    SAFENESS = {SAFENESS}
+    Without any second thought, Yuna ran as fast as she could.
 
+    {
+        -SAFENESS < 6:
+            But the strength of a young girls was clearly not enought to escape the vicious danger. She felt that he catched her, and his hands pressed a rag with chloroform onto her nose and mouth. Slowly, her eyelids became too heavy, and the darkness flooded her eyes.
+            ->Scene_5
+        -else:
+            She felt the danger following her step by step, but the energy of a young girl was clearly more enough to outrun the middle-aged man, tired after a day of work. She was lucky to catch a taxi in her way.
+            "I'll pay you double if you will ride as fast as you can!"
+            "Ok lady" - said the driver as he drowe off his car - "Can you at least say me where do you need to go so urgently?"
+            After a moment of hezitation she replied - "The nearest emmergency center in the city. Do you know where it can be?"
+            "Sure".
+            The day after, all the news were talking about a horrifying and shocking discovering. Nobody could thought that the serial killer that police was trying to catch for such a long time - <i>The Artist</i> - was himself an officer.
+    }
 ->END
 
 
@@ -192,10 +219,22 @@ VAR CASE = 0
 
 
 === Scene_4_2 ===
+    Yuna was eager to find the truth about Angela's case, but the more she thought, the more irrational her behavior seemed to be. She is just a private detective with little experience, and even if her intuition was saying that this was a murder, the photo is too insignificant to re-open the case. It is impossible to say when the picture was taken and if Angela was alive or not at that moment.
 
+    "It is really late and the chief may be at home already. And even if I find him, what could I possibly say to convince him to re-open the case? He seemed really stubborn about this, so maybe I'm just getting myself in trouble for nothing. I need to think it through."
+    
+    The days passed, and Yuna was trying to find other clues, but she had no luck. The police didn't re-open the case and even the parents seemed to make peace with the idea that their daughter wasn't there anymore. Yuna had no other choice than to stop her investigation, even if this case would always remain a mystery to her.
+    ~SAFENESS = 10
+    ~CASE =0
+    SAFENESS = {SAFENESS}
+    SOLVING THE CASE = {CASE}
+    ->DONE
 
 ->END
 
+=== Scene_5 ===
 
+
+->END
 
 
