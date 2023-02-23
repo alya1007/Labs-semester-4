@@ -178,10 +178,24 @@ VAR CASE = 0
 
 === Scene_4_1_ACCEPT_RIDE ===
     ~SAFENESS--
-    ~CASE++
-    SAFENESS = {SAFENESS}
+    ~CASE++ 
+    Just as Mr. Black stood up, Yuna exclaimed:
+    "Yes, please, I would be really thankfully for that!"
+    "No problem, let me just get my keys. You can wait for me outside."
+    As Yuna was exiting the police station, she understood that this was her last chance to convince the chief to re-open the case.<i> "I need to make justice for Angela and her parents. The fate of this case depends on me and I have every intention to finish the job."
+    Yuna was trying to organize her knowledge about the case into well defined arguments, when the chief approached her. 
+    "Let's go, my car is in that direction."
+  Following the chief through the parking lot, she couldn't help, but analyze the man in front of her. He seemed tired, but he carried himself with pride. There where just 2 steps between the department chief of the police and Yuna, but instead of feeling safe and protected, her body tensed, as if she was the prey that could sense the predator nearby.
+  They got to the car and Mr. Black opened the front door for Yuna. His phone started ringing.
+  "I have to take this, it's about work. Make yourself comfortable."
+  The car was clean and there was a persistent smell of bleach, like the seats were scrubbed minutes ago. Yuna felt nauseous so she took a sip from her bottle of water. Spontaneously the driver door opened and Yuna was so shocked that she dropped the bottle on the car floor. Mr. Black was looking surprised at the girl that was trying frantically to find some tissues in her backpack. 
+  "Oh.. Oh, I'm so sorry. I think I'm just too stressed about this case and.. and you opened the door so unexpectedly."
+  "It's ok, just calm down. I think I have some tissues... Stop! Do not touch that."
+  Yuna instinctively opened the glove box in front of her. The Mr. Black's voice almost stopped her, but she noticed something familiar with the corner of her eye. It was a pile of polaroid photos - bloody corpses posed into horrific poses, and on the top was the photo of Angela. She couldn't move, her pulse was raising. Yuna mustered her will and turned her head to confront the chief. But his hand was already reaching for her. Mr. Black grabbed her wrist and pulled her closer, as he hit her with a rock on the head. Yuna's world started to spin and her eyes became heavy. She tried to  remain conscious, but it was too hard. Her body freed from tension as she fainted.
+  
+    SAFENESS = {SAFENESS} 
     SOLVING THE CASE = {CASE}
-->END
+    ->Scene_5
 
 === Scene_4_1_DECLINE_RIDE ===
     ~CASE--
@@ -198,13 +212,13 @@ VAR CASE = 0
 
     {
         -SAFENESS < 6:
-            But the strength of a young girls was clearly not enought to escape the vicious danger. She felt that he catched her, and his hands pressed a rag with chloroform onto her nose and mouth. Slowly, her eyelids became too heavy, and the darkness flooded her eyes.
+            But the strength of a young girls was clearly not enough to escape the vicious danger. She felt that he caught her, and his hands pressed a rag with chloroform onto her nose and mouth. Slowly, her eyelids became too heavy, and the darkness flooded her eyes.
             ->Scene_5
         -else:
             She felt the danger following her step by step, but the energy of a young girl was clearly more enough to outrun the middle-aged man, tired after a day of work. She was lucky to catch a taxi in her way.
             "I'll pay you double if you will ride as fast as you can!"
-            "Ok lady" - said the driver as he drowe off his car - "Can you at least say me where do you need to go so urgently?"
-            After a moment of hezitation she replied - "The nearest emmergency center in the city. Do you know where it can be?"
+            "Ok lady" - said the driver as he drove off his car - "Can you at least say me where do you need to go so urgently?"
+            After a moment of hesitation she replied - "The nearest emergency center in the city. Do you know where it can be?"
             "Sure".
             The day after, all the news were talking about a horrifying and shocking discovering. Nobody could thought that the serial killer that police was trying to catch for such a long time - <i>The Artist</i> - was himself an officer.
     }
@@ -213,7 +227,10 @@ VAR CASE = 0
 
 === Scene_4_1_AGGRESSIVELY ===
     ~SAFENESS--
-
+        "What are you even thinking about! Sitting here all day, while a real criminal is running loose! A young woman was killed, and you don't give a f..."
+        "Stop!" - his fist hit the table with a loud noise. - "Why are you speaking with me like this?! Watch your tone!".
+        Yuna was too stubborn to give up this time - she approaches the table and leaned over to look closer into his eyes. "No, you will listen to me NOW!" - as the last word was spoken, Yuna noticed a change in his sight. They were burning with an animal instinct from inside out and on his face appeared a smirk.
+        One more moment and his hand was around the back of her head. The next she knew, her head collided with the table as he pulled her down. She felt on the floor, feeling how she looses her consciousness.
 ->END
 
 
@@ -233,8 +250,47 @@ VAR CASE = 0
 ->END
 
 === Scene_5 ===
-
+    **Present time
+    Yuna heavily opens her eyes. <i>"Where am I? What happened?"</i>. Gathering all her remaining effort, she tries to move her body and realizes that her hands and legs are roped to the chair she's sitting on. She slowly recalled the events that lead to this moment.
+    The blood in her veins froze when she hears the door creak and a stream of light enters the room. Now it's visible that she was locked in a basement.
+    There is him - standing in the doorframe with a butchers knife.
+    "You're awake? Finally!" - he mocks her.
+    "You will regret that you met me in the first place, but luckily, you won't have to regret that long!"
+    "What do you want from me? Aren't you supposed to protect the citizens? Who even are you?"
+    "Hm, I thought you're smarter than that..." - his silence is full of disappointment. His hand reached the pocket and with sudden movement, he throws a bunch of photos on the floor. "Do you get it now?". 
+    
+    {
+        - CASE > 4 :
+            "Say my name."
+            "You are <i>The Artist</i>, aren't you?"
+            "You're goddamn right."
+            A flicker of pride appeared in his gaze.
+            ~SAFENESS++
+            {
+                - SAFENESS > 5 :
+                "I'm so glad to finally meet you!"
+                Yuna noticed that the roles have changed and now he is the one confused.
+                "What do you mean? Are you playing with me?"
+                "I'm your big fan! You're not a murderer, you are a creator! You compose masterpieces!"
+                <i>"If I make him believe me, I'm definitely gonna survive."</i> Yuna thought.
+                He was genuinely surprised to hear this words - he let his guard down. He needed a minute to analyze the situation so, <i>The Artist</i> left the room, leaving his knife on a table nearby. Yuna couldn't lose this chance, that's why she swang on the chair in hope to reach the weapon. She felt over with the chair and hit the table, so the knife was now on the floor.
+                She was able to reach the knife and to cut the ropes that restrained her moves. She was now free, but <i>The Artist</i> was right outside the door. She hid in the dark corner of the room. Once, Mr. Black decided what to do with the girl, he entered the room and surprised to see an empty room, he passes to the center of the room. He stood there, as he suddenly felt a penetration in the back.
+                "AAAaaagghhhhh!" - the knife got deep into his left lung.
+                ->Newsblog
+                
+            
+            } 
+            
+        -else:
+            "Didn't you hear about "The Artist?". The famous serial murderer that makes sculptures from the victim's bodies? Well, they aren't actually "victims", they are my raw material. That woman... Angela... Was just one of my creations."
+            "Masterpiece? That was just a hanging body..."
+            "Well, let me explain myself - for a period of time I hoped she could be my <i>muse</i>, I even tried to model her, but" - he lifted the photo of Angela's body form the pile on the floor - "you can see for yourself - she isn't good enough. I can't ruin my reputation, with unsuccessful drafts. However, I couldn't overcome my compulsion - I left a picture there - it was my second and last mistake. I'm not gonna let you get out of here alive."
+    }
 
 ->END
 
-
+=== Newsblog ===
+    **Newsblog
+    Breaking News: Girl Survives Encounter with Police Officer Serial Killer - "The Artist"
+    In a shocking revelation, authorities have announced that the suspected serial killer responsible for a string of murders in the area is a police officer. The killer, whose identity is being withheld pending an ongoing investigation, has been taken into custody following a harrowing ordeal with a young woman who managed to escape.
+->END
