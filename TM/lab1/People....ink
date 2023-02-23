@@ -135,7 +135,7 @@ VAR CASE = 0
     ~SAFENESS--
     SAFENESS = {SAFENESS}
     "I have to go back to the police station before the chief leaves it. It's already too late, so I need to hurry."
-    Yuna took a taxi to arrive as quick as possible, and luckily, the police officer didn't leave yet, even though it was past the working hours. Without any hesitation, she ran into the room, where she found Mr. Black sitting in the same position when she earlier spoke to him. She addressed the officer:
+    Yuna took a taxi to arrive as quick as possible, and luckily, the police officer didn't leave yet, even though it was past the working hours. Yuna ran into the room, where she found Mr. Black sitting in the same position when she earlier spoke to him. She addressed the officer:
         **Calmly
             ->Scene_4_1_CALM
         **Aggressively
@@ -144,12 +144,48 @@ VAR CASE = 0
 ->END
 
 === Scene_4_1_CALM ===
-    ~SAFENESS--
+    ~CASE++
+    Mr. Black took a deep sigh when he raised his eyes and noticed who broke into the office.
+    "Sir, I don't have the intention to bother you, but please, take in consideration our earlier conversation."
+    "You are very persistent even if I suggested you to stay out of the case."
+    After some moments of hesitation, Yuna took the courage to explain her point - "Yes, but as I already said to you, I don't understand why the case was classified as a suicide in the first place!
+    {
+    - CASE > 3:
+        ~SAFENESS--
+        SAFENESS = {SAFENESS}
+        You do realize that this case is related to The Artist, right?" - as she said this phrase, Yuna noticed a terrifying glance from the officer.
+        "The Artist..." - he paused for a moment - "just because all the media is talking about him right now, it doesn't mean that you need to connect every odd case to this <i>monster</i>"
+        Yuna found his change of the intonation very disturbing. <i>"I have a feeling that I don't have to trust him"</i> - her thoughts were interrupted:
+        "However, it's a late hour. You came here just as I was thinking about leaving home." - his face warped in a peculiar smile.
+        "I can give you a lift if you want."
+        ->Scene_4_1_CHOICE
+
+    }
+    
 
 ->END
 
+=== Scene_4_1_CHOICE ===
+        **Accept
+            ->Scene_4_1_ACCEPT_RIDE
+        **Decline
+            ->Scene_4_1_DECLINE_RIDE
+
+->END
+
+=== Scene_4_1_ACCEPT_RIDE ===
+    ~SAFENESS--
+    SAFENESS = {SAFENESS}
+
+->END
+
+=== Scene_4_1_DECLINE_RIDE ===
+
+->END
+
+
 === Scene_4_1_AGGRESSIVELY ===
-    ~CASE++
+    ~SAFENESS--
 
 ->END
 
