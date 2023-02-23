@@ -52,7 +52,7 @@ VAR CASE = 0
     "Could you please describe more detailed your daughter?"
     Yuna was engaged in a conversation with the grieving parents, Mr. and Mrs. Smiths.
     While the sunlight was filling the bright room, Yuna thought for a moment that the world didn't change and the other's lives were going on, as this family was stuck in a never-ending moment of anguish. "How unfair is that..."
-    "Angy was loved by everyone. She had a dozen of kind friends, was good at her joob, I can not think of at least one reason why she would..." the loving mother's voice started shaking while her eyes where filling with tears.
+    "Angy was loved by everyone. She had a dozen of kind friends, was good at her job, I can not think of at least one reason why she would..." the loving mother's voice started shaking while her eyes where filling with tears.
     "Where were you in the night of the tragedy?"
     "Oh, we visited our friends. It was Bingo night, so we stayed longer than expected."
     "When you came home, was the door opened?"
@@ -80,7 +80,7 @@ VAR CASE = 0
         At the first glance, the carpet seemed ordinary - however, Yuna decided to take a closer look in case of any blood traces. She kneeled on the carpet and took out her ultraviolet flashlight. Unfortunately, no clues were found, that's why she moved the carpet and started knocking on the floor, eager to find a hidden basement. "Nothing useful, maybe I should take a look somewhere else."
     -> Choices
     = Window_Scene
-        Yuna got closer to the window. "The door was closed as the Smiths arrived home in the day of the crime, so, maybe the murderer entered through the window". Her assumption was quickly dismised because the window was closed and it didn't have any scratch or marks.
+        Yuna got closer to the window. "The door was closed as the Smiths arrived home in the day of the crime, so, maybe the murderer entered through the window". Her assumption was quickly dismissed because the window was closed and it didn't have any scratch or marks.
     -> Choices
     = Nightstand_Scene
         ~CASE++
@@ -92,7 +92,7 @@ VAR CASE = 0
             She recalled with panic the news blog she saw this morning. "This have to be the work of <i>The Artist!</i>"
         }
         
-        ** 25th Octomber 20** 11:00AM; Police station
+        ** 25th October 20** 11:00AM; Police station
     -> Scene_3
 -> END
 
@@ -109,15 +109,56 @@ VAR CASE = 0
     ~SAFENESS--
     ~CASE++
     SAFENESS = {SAFENESS}
+    **25th October 20** 19:43AM; Yuna's house
 -> Scene_4
 
 === Scene_4 ===
-    ** 25th October 20** 19:43AM; Yuna's house
-    The unpleasant conversation with the police chief, was replaying in Yuna's head all day. Passing the room, she decided: "I can't leave it like this. I gotta go and talk to him. I don't understand, why was he denying the evidence?"
+    The unpleasant conversation with the police chief, was replaying in Yuna's head all day. Passing the room, she decided: "I can't leave it like this. I gotta go and talk to him. I don't understand, why was he denying the murder?"
+    {
+        - CASE == 3:
+            After some time of thinking, Yuna said: "The evidence clearly shows that this is a case related to The Artist. The officer behavior is extremely suspicion"
+            ~CASE++
+            SOLVING THE CASE = {CASE}
+            
+    }
+    "I need to decide whether to go at the police station now, or not to bother the police chief"
+    **Go to the police station
+        ->Scene_4_1
+    **Stay at home
+        ->END
+    
+
 
 -> END
 
+=== Scene_4_1 ===
+    ~SAFENESS--
+    SAFENESS = {SAFENESS}
+    "I have to go back to the police station before the chief leaves it. It's already too late, so I need to hurry."
+    Yuna took a taxi to arrive as quick as possible, and luckily, the police officer didn't leave yet, even though it was past the working hours. Without any hesitation, she ran into the room, where she found Mr. Black sitting in the same position when she earlier spoke to him. She addressed the officer:
+        **Calmly
+            ->Scene_4_1_CALM
+        **Aggressively
+            ->Scene_4_1_AGGRESSIVELY
 
+->END
+
+=== Scene_4_1_CALM ===
+    ~SAFENESS--
+
+->END
+
+=== Scene_4_1_AGGRESSIVELY ===
+    ~CASE++
+
+->END
+
+
+
+=== Scene_4_2 ===
+
+
+->END
 
 
 
