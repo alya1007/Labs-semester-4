@@ -4,6 +4,8 @@ VAR CASE = 0
 -> Introduction
 
 === Introduction ===
+    Afteni Maria FAF-213
+    Konjevic Alexandra FAF-213
     18th October 20** 11:05PM San Francisco, California State, USA, North America, Earth, Milky Way, long: -122.396257 lat: 37.795356 +4UTF
     Loud sounds of police sirens came from afar. The air was heavy with terror and shock. Yellow police tape fluttered in the breeze, marking off a house that was now a crime scene. A police officer was consoling a middle-aged couple that seemed to have lost all hope in their eyes.
    "I know it's hard for you to be rational right now, but please, I have a couple of questions to ask you. Would you be able to answer them?" - with regret in his eyes - asked the police officer as he waited for a response that never came.
