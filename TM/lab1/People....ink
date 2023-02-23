@@ -230,7 +230,7 @@ VAR CASE = 0
         "What are you even thinking about! Sitting here all day, while a real criminal is running loose! A young woman was killed, and you don't give a f..."
         "Stop!" - his fist hit the table with a loud noise. - "Why are you speaking with me like this?! Watch your tone!".
         Yuna was too stubborn to give up this time - she approaches the table and leaned over to look closer into his eyes. "No, you will listen to me NOW!" - as the last word was spoken, Yuna noticed a change in his sight. They were burning with an animal instinct from inside out and on his face appeared a smirk.
-        One more moment and his hand was around the back of her head. The next she knew, her head collided with the table as he pulled her down. She felt on the floor, feeling how she looses her consciousness.
+        One more moment and his hand was around the back of her head. The next she knew, her head collided with the table as he pulled her down. She felt on the floor, feeling how she looses her consciousness. The last thing she heard in her life was a gunshot.
 ->END
 
 
