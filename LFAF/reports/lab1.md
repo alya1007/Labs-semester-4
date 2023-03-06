@@ -10,7 +10,7 @@
 
 ## Introduction
 
-#### In this report, we will explore the concepts of formal languages and finite automata. A formal language is a set of strings over a particular alphabet. A finite automaton is a mathematical model that recognizes languages by reading strings one symbol at a time and transitioning between states based on those symbols. The goal of this lab is to implement a grammar class that can generate strings from a given grammar, and then use those generated strings to create a finite automaton.
+In this report, we will explore the concepts of formal languages and finite automata. A formal language is a set of strings over a particular alphabet. A finite automaton is a mathematical model that recognizes languages by reading strings one symbol at a time and transitioning between states based on those symbols. The goal of this lab is to implement a grammar class that can generate strings from a given grammar, and then use those generated strings to create a finite automaton.
 
 <br>
 
@@ -26,9 +26,9 @@
 
 ## Implementation Description
 
-#### I have implemented two classes: `Grammar` and `FiniteAutomaton`. The `Grammar` class takes as input the non-terminal symbols, terminal symbols, starting symbol, and a dictionary of rules that map each non-terminal symbol to a list of possible productions. After that, there's implemented a `GenerateString` method that takes the grammar and generates a random string that conforms to the grammar's rules.
+I have implemented two classes: `Grammar` and `FiniteAutomaton`. The `Grammar` class takes as input the non-terminal symbols, terminal symbols, starting symbol, and a dictionary of rules that map each non-terminal symbol to a list of possible productions. After that, there's implemented a `GenerateString` method that takes the grammar and generates a random string that conforms to the grammar's rules.
 
-#### Here's a breakdown of how the `GenerateString` works:
+Here's a breakdown of how the `GenerateString` works:
 
 - The method starts by creating a new instance of the Random class to generate random numbers.
 - It initializes an empty generatedString and a stack data structure, and pushes the starting symbol onto the stack.
@@ -38,7 +38,7 @@
 - If the symbol is a non-terminal symbol, the method looks up the set of possible rules for that symbol in the Rules dictionary. It randomly selects one of these rules, and pushes the symbols in reverse order onto the stack. This order is important because the stack is a Last-In-First-Out (LIFO) data structure, so the symbols will be popped off the stack in the correct order to build the generated string.
 - Once the loop has finished, the generatedString is returned.
 
-#### Then, there is the `ConvertToFiniteAutomaton` method, which convert the grammar into a finite automaton in the following way:
+Then, there is the `ConvertToFiniteAutomaton` method, which convert the grammar into a finite automaton in the following way:
 
 - The list of non-terminal symbols is attributed to the list of states.
 - The list of terminal symbols is attributed to the alphabet.
@@ -47,15 +47,15 @@
 - The list of states and finalState are converted to strings, because the constructor of `FiniteAutomaton` expects lists of string, and not chars.
 - It is instantiated a `FiniteAutomaton` object.
 
-#### Next, I implemented a FiniteAutomaton class that takes as input the states, alphabet, transitions, starting state, and final states of the automaton. Then I implemented a CanGenerateString method that takes an input string and checks whether it can be generated via the state transitions given.
+Next, I implemented a FiniteAutomaton class that takes as input the states, alphabet, transitions, starting state, and final states of the automaton. Then I implemented a CanGenerateString method that takes an input string and checks whether it can be generated via the state transitions given.
 
-#### The method iterates through each symbol in the input string and checks the following:
+The method iterates through each symbol in the input string and checks the following:
 
 - If the symbol is not in the alphabet, the method returns false because the input is not valid.
 - If there is no transition from the current state for the current symbol, the method returns false because the DFA cannot process the input.
 - If the current symbol has a transition, the current state is updated to the new state as defined by Transitions.
 
-#### If all symbols in the input string have been processed and the current state is in the set of final states, the method returns true because the input string was accepted by the DFA. If the current state is not in the set of final states, the method returns false because the input string was not accepted by the DFA.
+If all symbols in the input string have been processed and the current state is in the set of final states, the method returns true because the input string was accepted by the DFA. If the current state is not in the set of final states, the method returns false because the input string was not accepted by the DFA.
 
 <br>
 
@@ -63,48 +63,56 @@
 
 Given my variant, 23:
 
-#### VN={S, B, C},
+VN={S, B, C},
 
-#### VT={a, b, c},
+VT={a, b, c},
 
-#### P={
+P={
 
-#### S → aB
+S → aB
 
-#### B → aC
+B → aC
 
-#### C → bB
+C → bB
 
-#### C → c
+C → c
 
-#### C → aS
+C → aS
 
-#### B → bB
+B → bB
 
-#### }
+}
 
-### These are the results for three compilations:
+These are the results for three compilations:
 
-- <img src="screenshots/lab1/Screenshot_1.png "
-     alt="screenshot_1"
-     style="height: 150px;" />
+- `aac` <br>
+  `abbbbbbbac`<br>
+  `abac`<br>
+  `aac`<br>
+  `aac`<br>
 
-- <img src="screenshots/lab1/Screenshot_2.png "
-     alt="screenshot_2"
-     style="height: 150px;" />
+- `aabbaaabaaaac` <br>
+  `abbbabaaaaaabac`<br>
+  `aaaabac`<br>
+  `abbbac`<br>
+  `abac`<br>
 
-- <img src="screenshots/lab1/Screenshot_3.png "
-     alt="screenshot_3"
-     style="height: 150px;" />
+- `ababac` <br>
+  `aabac`<br>
+  `abbbbbbac`<br>
+  `abbbaaaac`<br>
+  `abbabaaaaaabbbaaaaaabbbbaaaaaabbaaabbac`<br>
 
-#### Next, there is the output for testing the `CanGenerateString` method of the `FiniteAutomaton` class. The first three strings are also presented in the first three screenshots, and that's why we know that they can be generated by the rules of the grammar and the method also returns `true`. The next inputs contain symbols that are not in the alphabet, empty string, and a string that cannot be generated by the rules, and that's why the method returns `false`.
+Next, there is the output for testing the `CanGenerateString` method of the `FiniteAutomaton` class. The first three strings are also presented in the first three screenshots, and that's why we know that they can be generated by the rules of the grammar and the method also returns `true`. The next inputs contain symbols that are not in the alphabet, empty string, and a string that cannot be generated by the rules, and that's why the method returns `false`.
 
-<img src="screenshots/lab1/Screenshot_4.png "
-     alt="screenshot_4"
-     style="height: 150px;" />
-
+`Input 'abbabaaaaaabbbaaaaaabbbbaaaaaabbaaabbac': True` <br>
+`Input 'aac': True` <br>
+`Input 'abac': True` <br>
+`Input 'asdss': False` <br>
+`Input '': False` <br>
+`Input 'abb': False` <br>
 <br>
 
 ## Conclusion
 
-#### Overall, this laboratory work has provided a good understanding of formal languages, grammar, and finite automata, as well as how to implement and manipulate them using code. The code examples and explanations provided in this report can be useful for anyone who wants to implement or learn more about these topics.
+Overall, this laboratory work has provided a good understanding of formal languages, grammar, and finite automata, as well as how to implement and manipulate them using code. The code examples and explanations provided in this report can be useful for anyone who wants to implement or learn more about these topics.
