@@ -16,6 +16,23 @@ namespace src
             FinalStates = finalStates;
         }
 
+        public bool isDeterministic()
+        {
+            foreach (var transition in Transitions)
+            {
+                foreach (var transition2 in Transitions)
+                {
+                    // If the current state and the symbol are the same,
+                    // but the next state is different, then it is not deterministic
+                    if (transition.CurrentState == transition2.CurrentState && transition.Symbol == transition2.Symbol && transition.NextState != transition2.NextState)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public Production TransitionToProduction(Transition transition)
         {
             return new Production(new[] { transition.CurrentState }, new[] { transition.Symbol, transition.NextState });
