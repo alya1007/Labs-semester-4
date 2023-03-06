@@ -10,8 +10,8 @@ namespace src
         public List<char> NonTerminalSymbols { get; set; }
         public List<char> TerminalSymbols { get; set; }
         public char StartingSymbol { get; set; }
-        public Dictionary<char, List<string>> Rules { get; set; }
-        public Grammar(List<char> nonTerminalSymbols, List<char> terminalSymbols, char startingSymbol, Dictionary<char, List<string>> rules)
+        public Dictionary<string, List<string>> Rules { get; set; }
+        public Grammar(List<char> nonTerminalSymbols, List<char> terminalSymbols, char startingSymbol, Dictionary<string, List<string>> rules)
         {
             NonTerminalSymbols = nonTerminalSymbols;
             TerminalSymbols = terminalSymbols;
@@ -35,7 +35,7 @@ namespace src
                 }
                 else
                 {
-                    var possibleRules = Rules[currentSymbol];
+                    var possibleRules = Rules[currentSymbol.ToString()];
                     var rule = possibleRules[random.Next(possibleRules.Count)];
 
                     for (int i = rule.Length - 1; i >= 0; i--)
@@ -49,10 +49,10 @@ namespace src
         }
 
         // Method to convert a grammar rules into transitions for a finite automaton
-        static public Dictionary<(string, char), string> GetTransitions(Dictionary<char, List<string>> rules)
+        static public Dictionary<(string, char), string> GetTransitions(Dictionary<string, List<string>> rules)
         {
             var transitions = new Dictionary<(string, char), string>();
-            var visited = new HashSet<char>();
+            var visited = new HashSet<string>();
             var epsilon = "X";
 
             foreach (var rule in rules)
@@ -69,23 +69,23 @@ namespace src
                     {
                         var symbol = symbols[i];
 
-                        if (rules.ContainsKey(symbol))
+                        if (rules.ContainsKey(symbol.ToString()))
                         {
                             // If this is the first visit to the nonterminal, add transition to the first symbol in the production
-                            if (!visited.Contains(symbol))
+                            if (!visited.Contains(symbol.ToString()))
                             {
-                                visited.Add(symbol);
+                                visited.Add(symbol.ToString());
                                 transitions.Add((nonterminal.ToString(), symbol), production.Substring(i));
                                 break;
                             }
                             // If we've already visited this nonterminal, add epsilon transitions to its first set of productions
                             else
                             {
-                                var firstProductions = rules[symbol];
+                                var firstProductions = rules[symbol.ToString()];
                                 foreach (var firstProduction in firstProductions)
                                 {
                                     // If the first symbol in the production is a nonterminal, add epsilon transition
-                                    if (rules.ContainsKey(firstProduction[0]))
+                                    if (rules.ContainsKey(firstProduction[0].ToString()))
                                     {
                                         transitions.Add((nonterminal.ToString(), firstProduction[0]), epsilon);
                                     }
@@ -129,5 +129,34 @@ namespace src
             List<string> stringFinalStates = new List<string> { finalStates };
             return new FiniteAutomaton(stringStates, alphabet, transitions, initialState, stringFinalStates);
         }
+
+        public string DetermineGrammarType()
+        {
+            bool isRegular = Rules.Values.All(v => v.All(c => TerminalSymbols.Contains(c.ToCharArray()[0])) || v.All(c => c.ToCharArray()[0] == 'ε'));
+            bool isContextFree = Rules.Values.All(v => v.All(c => NonTerminalSymbols.Contains(c.ToCharArray()[0])));
+            bool isContextSensitive = Rules.Values.All(v => v.All(c => NonTerminalSymbols.Contains(c.ToCharArray()[0])) && v.Count > 0 && v.Count <= Rules.Keys.Count);
+            bool isUnrestricted = !isContextSensitive;
+            if (isRegular)
+            {
+                return "Regular";
+            }
+            else if (isContextFree)
+            {
+                return "Context-Free";
+            }
+            else if (isContextSensitive)
+            {
+                return "Context-Sensitive";
+            }
+            else if (isUnrestricted)
+            {
+                return "Unrestricted";
+            }
+            else
+            {
+                return "Unknown";
+            }
+        }
+
     }
 }
