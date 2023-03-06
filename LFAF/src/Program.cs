@@ -24,6 +24,15 @@ namespace src
             Grammar grammar = finiteAutomaton.ToGrammar();
             Console.WriteLine(grammar.GetChomskyType());
             Console.WriteLine(finiteAutomaton.isDeterministic());
+            FiniteAutomaton dfa = finiteAutomaton.ToDFA();
+            // write all dfa transitions 
+            foreach (var transition in dfa.Transitions)
+            {
+                Console.WriteLine(transition.CurrentState + " " + transition.Symbol + " " + transition.NextState);
+            }
+
+            finiteAutomaton.WriteToFile("fa.dot");
+
         }
     }
 }
