@@ -7,7 +7,6 @@ namespace src
         public Dictionary<(string, char), string> Transitions { get; set; }
         public string StartState { get; set; }
         public List<string> FinalStates { get; set; }
-
         public FiniteAutomaton(List<string> states, List<char> alphabet, Dictionary<(string, char), string> transitions, string startState, List<string> finalStates)
         {
             States = states;

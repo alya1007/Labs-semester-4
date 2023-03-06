@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 namespace src
 {
-    class Grammar
+    class RegularGrammar
     {
-        public List<char> NonTerminalSymbols { get; set; }
+        public List<string> NonTerminalSymbols { get; set; }
         public List<char> TerminalSymbols { get; set; }
         public char StartingSymbol { get; set; }
         public Dictionary<string, List<string>> Rules { get; set; }
-        public Grammar(List<char> nonTerminalSymbols, List<char> terminalSymbols, char startingSymbol, Dictionary<string, List<string>> rules)
+        public RegularGrammar(List<string> nonTerminalSymbols, List<char> terminalSymbols, char startingSymbol, Dictionary<string, List<string>> rules)
         {
             NonTerminalSymbols = nonTerminalSymbols;
             TerminalSymbols = terminalSymbols;
@@ -129,34 +129,5 @@ namespace src
             List<string> stringFinalStates = new List<string> { finalStates };
             return new FiniteAutomaton(stringStates, alphabet, transitions, initialState, stringFinalStates);
         }
-
-        public string DetermineGrammarType()
-        {
-            bool isRegular = Rules.Values.All(v => v.All(c => TerminalSymbols.Contains(c.ToCharArray()[0])) || v.All(c => c.ToCharArray()[0] == 'ε'));
-            bool isContextFree = Rules.Values.All(v => v.All(c => NonTerminalSymbols.Contains(c.ToCharArray()[0])));
-            bool isContextSensitive = Rules.Values.All(v => v.All(c => NonTerminalSymbols.Contains(c.ToCharArray()[0])) && v.Count > 0 && v.Count <= Rules.Keys.Count);
-            bool isUnrestricted = !isContextSensitive;
-            if (isRegular)
-            {
-                return "Regular";
-            }
-            else if (isContextFree)
-            {
-                return "Context-Free";
-            }
-            else if (isContextSensitive)
-            {
-                return "Context-Sensitive";
-            }
-            else if (isUnrestricted)
-            {
-                return "Unrestricted";
-            }
-            else
-            {
-                return "Unknown";
-            }
-        }
-
     }
 }
