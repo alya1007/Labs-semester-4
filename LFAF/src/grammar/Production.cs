@@ -1,13 +1,13 @@
-namespace src2
+namespace src
 {
     class Production
     {
-        public String leftSide { get; set; }
-        public String rightSide { get; set; }
-        public Production(String leftSide, String rightSide)
+        public String[] LeftSide { get; set; }
+        public String[] RightSide { get; set; }
+        public Production(String[] leftSide, String[] rightSide)
         {
-            this.leftSide = leftSide;
-            this.rightSide = rightSide;
+            this.LeftSide = leftSide;
+            this.RightSide = rightSide;
         }
     }
 }

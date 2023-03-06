@@ -6,24 +6,22 @@ namespace src
     {
         static void Main(string[] args)
         {
-            var nonTerminalSymbols = new List<string> { "S", "B", "C" };
-            var terminalSymbols = new List<char> { 'a', 'b', 'c' };
-            var startingSymbol = 'S';
-            var rules = new Dictionary<string, List<string>> {
-            {"S", new List<string> {"aB"}},
-            {"B", new List<string> {"aC", "bB"}},
-            {"C", new List<string> {"bB", "c", "aS"}}
+            List<string> nonTerminalSymbols = new List<string> { "q0", "q1", "q2" };
+            List<string> terminalSymbols = new List<string> { "a", "b" };
+            string startingSymbol = "q0";
+            List<Production> productions = new List<Production>
+            {
+                new Production(new []{"q0"}, new []{"a", "q0"}),
+                new Production(new []{"q0"}, new []{"b", "q1"}),
+                new Production(new []{"q1"}, new []{"b", "q1"}),
+                new Production(new []{"q1"}, new []{"b", "q2"}),
+                new Production(new []{"q1"}, new []{"a", "q0"}),
+                new Production(new []{"q2"}, new []{"b", "q1"}),
+                new Production(new []{"q2"}, new []{""})
             };
 
-            var grammar = new RegularGrammar(nonTerminalSymbols, terminalSymbols, startingSymbol, rules);
-            // generate 5 strings
-            for (int i = 0; i < 5; i++)
-            {
-                Console.WriteLine(grammar.GenerateString());
-            }
-
-            var automaton = grammar.ConvertToFiniteAutomaton();
-            Console.WriteLine(automaton.CanGenerateString("aac"));
+            Grammar grammar = new Grammar(nonTerminalSymbols, terminalSymbols, startingSymbol, productions);
+            Console.WriteLine(grammar.GetChomskyType());
         }
     }
 }
