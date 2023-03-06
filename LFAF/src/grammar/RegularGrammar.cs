@@ -115,7 +115,7 @@ namespace src
 
             return transitions;
         }
-        public FiniteAutomaton ConvertToFiniteAutomaton()
+        public Automaton ConvertToAutomaton()
         {
             var states = NonTerminalSymbols;
             var alphabet = TerminalSymbols;
@@ -124,10 +124,10 @@ namespace src
             var finalStates = "";
 
             // Convert states and final states to string
-            // because the FiniteAutomaton class constructor expects strings
+            // because the Automaton class constructor expects strings
             List<string> stringStates = states.Select(c => c.ToString()).ToList();
             List<string> stringFinalStates = new List<string> { finalStates };
-            return new FiniteAutomaton(stringStates, alphabet, transitions, initialState, stringFinalStates);
+            return new Automaton(stringStates, alphabet, transitions, initialState, stringFinalStates);
         }
     }
 }

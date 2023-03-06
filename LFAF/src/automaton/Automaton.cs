@@ -1,13 +1,13 @@
 namespace src
 {
-    class FiniteAutomaton
+    class Automaton
     {
         public List<string> States { get; set; }
         public List<char> Alphabet { get; set; }
         public Dictionary<(string, char), string> Transitions { get; set; }
         public string StartState { get; set; }
         public List<string> FinalStates { get; set; }
-        public FiniteAutomaton(List<string> states, List<char> alphabet, Dictionary<(string, char), string> transitions, string startState, List<string> finalStates)
+        public Automaton(List<string> states, List<char> alphabet, Dictionary<(string, char), string> transitions, string startState, List<string> finalStates)
         {
             States = states;
             Alphabet = alphabet;
