@@ -194,7 +194,8 @@ Once all transitions for all symbols have been generated for the current DFA sta
 
 For visualizing the FA I used the package `Graphviz`. In the `FiniteAutomaton` class I created a method `WriteToFile` which export the transitions of finite automaton into a `.dot` file. Next, after compiling the `Program.cs` file, in the terminal I ran the command `dot -Tpng -o fa.png fa.dot` - `fa.png` is the resulting image with the graph and the `fa.dot` file is the one that needs to be compiled.
 <br>
-<img src="../src/fa.png" style="display: block; margin: 0 auto;">
+<img src="../src/fa.png" style="display: block; margin: 20px auto;">
+<img src="../src/dfa.png" style="display: block; margin: 20px auto;">
 
 <br>
 
@@ -247,6 +248,9 @@ q1 b q1q2
 q1q2 a q0
 q1q2 b q1q2
 ```
+
+After the conversion I also checked with the method `isDeterministic` if the new FA is a DFA. Output:
+`True`
 
 ## Conclusion
 
