@@ -21,16 +21,22 @@ namespace src
             string startState = "q0";
             List<string> finalStates = new List<string> { "q2" };
             FiniteAutomaton finiteAutomaton = new FiniteAutomaton(states, alphabet, transitions, startState, finalStates);
+
+            // convert to grammar and determine its type
             Grammar grammar = finiteAutomaton.ToGrammar();
             Console.WriteLine(grammar.GetChomskyType());
+
+            // determine if fa is deterministic
             Console.WriteLine(finiteAutomaton.isDeterministic());
+
+            // convert nfa to dfa and print transitions
             FiniteAutomaton dfa = finiteAutomaton.ToDFA();
-            // write all dfa transitions 
             foreach (var transition in dfa.Transitions)
             {
                 Console.WriteLine(transition.CurrentState + " " + transition.Symbol + " " + transition.NextState);
             }
 
+            // write dfa transitions to file
             finiteAutomaton.WriteToFile("fa.dot");
 
         }

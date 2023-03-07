@@ -25,7 +25,7 @@ namespace src
             bool type1 = true;
             foreach (Production production in Rules)
             {
-                if (production.LeftSide.Length > 1)
+                if (production.LeftSide.Length > 1 || !(NonTerminalSymbols.Contains(production.LeftSide[0])))
                 {
                     hasUnitLeftSide = false;
                 }
