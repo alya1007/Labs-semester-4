@@ -36,8 +36,11 @@ namespace src
                 Console.WriteLine(transition.CurrentState + " " + transition.Symbol + " " + transition.NextState);
             }
 
+            Console.WriteLine(dfa.isDeterministic());
+
             // write dfa transitions to file
             finiteAutomaton.WriteToFile("fa.dot");
+            dfa.WriteToFile("dfa.dot");
 
         }
     }
