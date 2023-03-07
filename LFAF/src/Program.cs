@@ -22,6 +22,12 @@ namespace src
             List<string> finalStates = new List<string> { "q2" };
             FiniteAutomaton finiteAutomaton = new FiniteAutomaton(states, alphabet, transitions, startState, finalStates);
 
+            // print productions of the grammar
+            foreach (var production in finiteAutomaton.ToGrammar().Rules)
+            {
+                Console.WriteLine(production.LeftSide[0] + " -> " + production.RightSide[0] + " " + production.RightSide[1]);
+            }
+
             // convert to grammar and determine its type
             Grammar grammar = finiteAutomaton.ToGrammar();
             Console.WriteLine(grammar.GetChomskyType());
