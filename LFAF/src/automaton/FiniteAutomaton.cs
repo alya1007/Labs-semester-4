@@ -144,5 +144,28 @@ namespace src
             }
         }
 
+        public bool CanGenerateString(string input)
+        {
+            var currentState = StartState;
+            foreach (var symbol in input)
+            {
+                // Find a transition that matches the current state and symbol
+                var matchingTransition = Transitions.FirstOrDefault(
+                    t => t.CurrentState == currentState && t.Symbol == symbol.ToString()
+                );
+
+                // If there is no matching transition, the input string cannot be generated
+                if (matchingTransition == null)
+                {
+                    return false;
+                }
+
+                // Update the current state based on the matching transition
+                currentState = matchingTransition.NextState;
+            }
+
+            // Check if the final state is one of the accepting states
+            return FinalStates.Contains(currentState);
+        }
     }
 }

@@ -102,5 +102,102 @@ namespace src
                 return "Type 0";
             }
         }
+        public string GenerateRandomString()
+        {
+            // Create a random number generator
+            Random rand = new Random();
+
+            // Start with the starting symbol
+            string currentSymbol = StartingSymbol;
+
+            // Keep track of the generated string
+            StringBuilder sb = new StringBuilder();
+
+            // Loop until we have only terminal symbols
+            while (NonTerminalSymbols.Contains(currentSymbol))
+            {
+                // Find all productions that have the current symbol on the left side
+                List<Production> productions = Rules.FindAll(p => p.LeftSide.Contains(currentSymbol));
+
+                // Pick a random production from the list
+                Production chosenProduction = productions[rand.Next(productions.Count)];
+
+                // Add the right side of the chosen production to the generated string
+                foreach (string symbol in chosenProduction.RightSide)
+                {
+                    sb.Append(symbol);
+                }
+
+                // Set the current symbol to the first symbol in the generated string
+                currentSymbol = sb.ToString().Substring(0, 1);
+
+                // Clear the generated string
+                sb.Clear();
+            }
+
+            // Return the generated string
+            return sb.ToString();
+        }
+
+        public FiniteAutomaton ToFiniteAutomaton()
+        {
+            var states = new List<string>();
+            var alphabet = new List<string>();
+            var transitions = new List<Transition>();
+            var startState = StartingSymbol;
+            var finalStates = new List<string>();
+
+            // Add a new start state
+            var newStartState = GetUnusedStateName(states);
+            states.Add(newStartState);
+            transitions.Add(new Transition(newStartState, "", StartingSymbol));
+
+            // Add new final states
+            foreach (var production in Rules.Where(p => p.RightSide.Length == 0))
+            {
+                var newFinalState = GetUnusedStateName(states);
+                states.Add(newFinalState);
+                finalStates.Add(newFinalState);
+                transitions.Add(new Transition(production.LeftSide[0], "", newFinalState));
+            }
+
+            // Add transitions for all productions
+            foreach (var production in Rules.Where(p => p.RightSide.Length > 0))
+            {
+                var currentState = production.LeftSide;
+                var nextState = "";
+                foreach (var symbol in production.RightSide)
+                {
+                    if (!alphabet.Contains(symbol))
+                    {
+                        alphabet.Add(symbol);
+                    }
+
+                    nextState = GetUnusedStateName(states);
+                    states.Add(nextState);
+                    transitions.Add(new Transition(currentState[0], symbol, nextState));
+                    currentState = new[] { nextState };
+                }
+
+                transitions.Add(new Transition(currentState[0], "", ""));
+            }
+
+            return new FiniteAutomaton(states, alphabet, transitions, newStartState, finalStates);
+        }
+
+        private string GetUnusedStateName(List<string> existingStates)
+        {
+            var i = 0;
+            while (true)
+            {
+                var stateName = $"q{i++}";
+                if (!existingStates.Contains(stateName))
+                {
+                    return stateName;
+                }
+            }
+        }
+
+
     }
 }
