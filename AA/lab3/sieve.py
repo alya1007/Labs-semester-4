@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+
+
 def eratosthenes_sieve_1(n):
     c = [True] * (n+1)
     c[1] = False
@@ -105,9 +108,13 @@ def exec(function, r):
     print()
     print("{:<6s} {:>11s}".format("Size", "Time"))
     print()
+    time_list = []
     for range in r:
-        print("{:<9d} {:>14.8f}".format(range, measure_time(function, range)))
+        time = measure_time(function, range)
+        print("{:<9d} {:>14.8f}".format(range, time))
         print()
+        time_list.append(time)
+    plt.plot(r, time_list)
 
 
 def main():
