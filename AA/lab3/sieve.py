@@ -1,6 +1,3 @@
-import matplotlib.pyplot as plt
-
-
 def eratosthenes_sieve_1(n):
     c = [True] * (n+1)
     c[1] = False
@@ -12,11 +9,7 @@ def eratosthenes_sieve_1(n):
                 c[j] = False
                 j += i
         i += 1
-    d = []
-    for i in range(1, n+1):
-        if c[i] == True:
-            d.append(i)
-    return d
+    return c
 
 
 def eratosthenes_sieve_2(n):
@@ -29,11 +22,7 @@ def eratosthenes_sieve_2(n):
             c[j] = False
             j += i
         i += 1
-    d = []
-    for i in range(1, n+1):
-        if c[i] == True:
-            d.append(i)
-    return d
+    return c
 
 
 def sundaram_sieve(n):
@@ -48,11 +37,7 @@ def sundaram_sieve(n):
                     c[j] = False
                 j += 1
         i += 1
-    d = []
-    for i in range(1, n+1):
-        if c[i] == True:
-            d.append(i)
-    return d
+    return c
 
 
 def eratosthenes_sieve_naive(n):
@@ -68,11 +53,7 @@ def eratosthenes_sieve_naive(n):
                 break
             j += 1
         i += 1
-    d = []
-    for i in range(1, n+1):
-        if c[i] == True:
-            d.append(i)
-    return d
+    return c
 
 
 def segmented_sieve(n):
@@ -87,11 +68,7 @@ def segmented_sieve(n):
                 c[i] = False
             j += 1
         i += 1
-    d = []
-    for i in range(1, n+1):
-        if c[i] == True:
-            d.append(i)
-    return d
+    return c
 
 
 def measure_time(func, n):
@@ -103,6 +80,7 @@ def measure_time(func, n):
 
 
 def exec(function, r):
+    import matplotlib.pyplot as plt
     print()
     print(function.__name__, end="\n")
     print()
@@ -115,12 +93,21 @@ def exec(function, r):
         print()
         time_list.append(time)
     plt.plot(r, time_list)
+    plt.xlabel("Range")
+    plt.ylabel("Time in Seconds")
+    # plt.show()
 
 
 def main():
-    ranges = [100, 1000, 10000, 100000, 1000000,
-              10000000]
-    exec(eratosthenes_sieve_1, ranges)
+    import matplotlib.pyplot as plt
+    ranges = [100, 500, 1000, 5000, 10000, 50000, 100000,]
+    functions = [eratosthenes_sieve_1, eratosthenes_sieve_2,
+                 sundaram_sieve, eratosthenes_sieve_naive, segmented_sieve]
+    plt.figure()
+    for function in functions:
+        exec(function, ranges)
+
+    plt.show()
 
 
 if __name__ == "__main__":
