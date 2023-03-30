@@ -33,9 +33,9 @@ namespace src
             return result;
         }
 
-        private List<Token> Tokenize()
+        public List<Token> Tokenize()
         {
-            Regex identifierRegex = new Regex(@"^\w+$");
+            Regex identifierRegex = new Regex(@"^(?:[a-zA-Z][\w.:]*[a-zA-Z\d]|[.])$");
             Regex optionRegex = new Regex(@"^(-\w|--\w+|--\w+=\w+)$");
             Regex stringRegex = new Regex(@"\"".*?\""");
 

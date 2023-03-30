@@ -8,7 +8,7 @@ namespace src
 
         static void Main(string[] args)
         {
-            string input = "powershell start cmd --v \"runAs\" \"runAs sdf\"";
+            string input = "docker build -t myimage:latest .";
             Lexer lexer = new Lexer(input);
             lexer.PrintTokens();
         }
