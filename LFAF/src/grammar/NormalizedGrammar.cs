@@ -8,20 +8,45 @@ namespace src
         public void RemoveEpsilonProductions()
         {
             List<Production> epsilonProductions = EpsilonProductionList();
-            List<Production> rulesContainingEpsilon = new List<Production>();
             foreach (Production production in epsilonProductions)
             {
                 Rules.Remove(production);
             }
-            foreach (var rule in Rules)
+            List<Production> rulesContainingEpsilon = new List<Production>();
+            foreach (Production production in epsilonProductions)
             {
+                foreach (Production rule in Rules)
+                {
+                    if (rule.RightSide.Contains(production.LeftSide[0]) && !rulesContainingEpsilon.Contains(rule))
+                    {
+                        rulesContainingEpsilon.Add(rule);
+                    }
+                }
             }
-            foreach (var production in epsilonProductions)
-            {
-                var listToAdd = GenerateStringArrays(production.LeftSide[0], production.RightSide);
-            }
+            AddProductions(rulesContainingEpsilon, epsilonProductions);
         }
-        public List<Production> EpsilonProductionList()
+
+        private List<Production> AddProductions(List<Production> rulesContainingEpsilon, List<Production> epsilonProductions)
+        {
+            List<Production> newProductions = new List<Production>();
+            foreach (Production rule in rulesContainingEpsilon)
+            {
+                string leftSymbol = rule.LeftSide[0];
+                foreach (Production production in epsilonProductions)
+                {
+                    List<string[]> newRightSides = GenerateStringArrays(production.LeftSide[0], rule.RightSide);
+                    foreach (string[] newRightSide in newRightSides)
+                    {
+                        Production newProduction = new Production(new string[] { leftSymbol }, newRightSide);
+                        Rules.Add(newProduction);
+                        newProductions.Add(newProduction);
+                    }
+                }
+            }
+            return newProductions;
+        }
+
+        private List<Production> EpsilonProductionList()
         {
             List<Production> epsilonProductions = new List<Production>();
             foreach (Production production in Rules)
@@ -34,7 +59,7 @@ namespace src
             return epsilonProductions;
         }
 
-        public List<string[]> GenerateStringArrays(string charToReplace, string[] inputArray)
+        private List<string[]> GenerateStringArrays(string charToReplace, string[] inputArray)
         {
             List<string[]> outputList = new List<string[]>();
             // Loop through each element of the input array
@@ -66,7 +91,7 @@ namespace src
             return RemoveDuplicateArrays(outputList);
         }
 
-        public List<string[]> RemoveDuplicateArrays(List<string[]> inputList)
+        private List<string[]> RemoveDuplicateArrays(List<string[]> inputList)
         {
             HashSet<string> set = new HashSet<string>();
             List<string[]> outputList = new List<string[]>();
