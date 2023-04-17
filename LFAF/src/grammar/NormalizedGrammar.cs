@@ -5,7 +5,15 @@ namespace src
         public NormalizedGrammar(List<string> nonTerminalSymbols, List<string> terminalSymbols, string startingSymbol, List<Production> rules) : base(nonTerminalSymbols, terminalSymbols, startingSymbol, rules)
         {
         }
-        public void RemoveEpsilonProductions()
+
+        public void NormalizeGrammar()
+        {
+            RemoveEpsilonProductions();
+            RemoveUnitProductions();
+            RemoveNonProductiveSymbols();
+            RemoveUnreachableSymbols();
+        }
+        private void RemoveEpsilonProductions()
         {
             List<Production> epsilonProductions = EpsilonProductionList();
             foreach (Production production in epsilonProductions)
@@ -109,7 +117,7 @@ namespace src
             return outputList;
         }
 
-        public void RemoveUnitProductions()
+        private void RemoveUnitProductions()
         {
             List<Production> unitProductions = FindUnitProductions();
             foreach (Production unitProduction in unitProductions)
@@ -143,7 +151,7 @@ namespace src
             return unitProductions;
         }
 
-        public void RemoveNonProductiveSymbols()
+        private void RemoveNonProductiveSymbols()
         {
             // foreach production containing a non productive symbol
             // remove from rules
@@ -158,7 +166,7 @@ namespace src
             }
         }
 
-        public List<string> FindNonProductiveSymbols()
+        private List<string> FindNonProductiveSymbols()
         {
             var nonProductiveSymbols = NonTerminalSymbols.ToList(); // create a copy of the collection
             foreach (string symbol in NonTerminalSymbols)
@@ -179,7 +187,7 @@ namespace src
             return nonProductiveSymbols;
         }
 
-        public void RemoveUnreachableSymbols()
+        private void RemoveUnreachableSymbols()
         {
             var nonReachableSymbols = NonTerminalSymbols.ToList();
             foreach (string nonterminal in NonTerminalSymbols)

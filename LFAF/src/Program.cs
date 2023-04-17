@@ -23,16 +23,9 @@ namespace src
                 new Production(new string[] { "E" }, new string[] { "b", "B" }),
                 new Production(new string[] { "G" }, new string[] { "b", "B" }),
             };
-            var normalizedGrammar = new NormalizedGrammar(nonTerminalSymbols, terminalSymbols, startingSymbol, rules);
-            normalizedGrammar.RemoveEpsilonProductions();
-            normalizedGrammar.RemoveUnitProductions();
-            // normalizedGrammar.RemoveNonProductiveSymbols();
-            normalizedGrammar.RemoveUnreachableSymbols();
-            // print all the rules in the grammar
-            foreach (var rule in normalizedGrammar.Rules)
-            {
-                Console.WriteLine(rule.LeftSide[0] + " -> " + string.Join(" ", rule.RightSide));
-            }
+            var grammar = new Grammar(nonTerminalSymbols, terminalSymbols, startingSymbol, rules);
+            grammar.Normalize();
+            grammar.PrintAllProductions();
         }
     }
 }

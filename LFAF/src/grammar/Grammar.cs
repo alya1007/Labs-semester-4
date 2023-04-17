@@ -198,6 +198,23 @@ namespace src
             }
         }
 
+        public NormalizedGrammar Normalize()
+        {
+            var nonterminals = NonTerminalSymbols;
+            var terminals = TerminalSymbols;
+            var start = StartingSymbol;
+            var rules = Rules;
+            var normalizedGrammar = new NormalizedGrammar(nonterminals, terminals, start, rules);
+            normalizedGrammar.NormalizeGrammar();
+            return normalizedGrammar;
+        }
 
+        public void PrintAllProductions()
+        {
+            foreach (var production in Rules)
+            {
+                Console.WriteLine(production.LeftSide[0] + " -> " + string.Join(" ", production.RightSide));
+            }
+        }
     }
 }
