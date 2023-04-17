@@ -108,5 +108,99 @@ namespace src
             }
             return outputList;
         }
+
+        public void RemoveUnitProductions()
+        {
+            List<Production> unitProductions = FindUnitProductions();
+            foreach (Production unitProduction in unitProductions)
+            {
+                string rightSymbol = unitProduction.RightSide[0];
+                string leftSymbol = unitProduction.LeftSide[0];
+                var newProductions = Rules.Where(p => p.LeftSide[0] == rightSymbol)
+                                        .Select(p => new Production(new[] { leftSymbol }, p.RightSide))
+                                        .ToList();
+                Rules.AddRange(newProductions);
+                Rules.Remove(unitProduction);
+            }
+            // check if there are any more unit productions in Rules and if they are remove them
+            unitProductions = FindUnitProductions();
+            if (unitProductions.Count > 0)
+            {
+                RemoveUnitProductions();
+            }
+        }
+
+        private List<Production> FindUnitProductions()
+        {
+            var unitProductions = new List<Production>();
+            foreach (Production production in Rules)
+            {
+                if (production.LeftSide.Length == 1 && NonTerminalSymbols.Contains(production.LeftSide[0]) && production.RightSide.Length == 1 && NonTerminalSymbols.Contains(production.RightSide[0]))
+                {
+                    unitProductions.Add(production);
+                }
+            }
+            return unitProductions;
+        }
+
+        public void RemoveNonProductiveSymbols()
+        {
+            // foreach production containing a non productive symbol
+            // remove from rules
+            List<string> nonProductiveSymbols = FindNonProductiveSymbols();
+            foreach (string symbol in nonProductiveSymbols)
+            {
+                var symbolProductions = Rules.Where(p => p.RightSide.Contains(symbol) || p.LeftSide.Contains(symbol)).ToList();
+                foreach (Production production in symbolProductions)
+                {
+                    Rules.Remove(production);
+                }
+            }
+        }
+
+        public List<string> FindNonProductiveSymbols()
+        {
+            var nonProductiveSymbols = NonTerminalSymbols.ToList(); // create a copy of the collection
+            foreach (string symbol in NonTerminalSymbols)
+            {
+                var symbolProductions = Rules.Where(p => p.LeftSide[0] == symbol);
+                foreach (Production production in symbolProductions)
+                {
+                    // convert the right side of the production to a list
+                    var rightSide = production.RightSide.ToList();
+                    // if the right side contains only terminal symbols
+                    if (rightSide.All(s => TerminalSymbols.Contains(s)))
+                    {
+                        // remove the symbol from the non productive symbols list
+                        nonProductiveSymbols.Remove(symbol);
+                    }
+                }
+            }
+            return nonProductiveSymbols;
+        }
+
+        public void RemoveUnreachableSymbols()
+        {
+            var nonReachableSymbols = NonTerminalSymbols.ToList();
+            foreach (string nonterminal in NonTerminalSymbols)
+            {
+                foreach (Production production in Rules)
+                {
+                    if (production.RightSide.Contains(nonterminal))
+                    {
+                        nonReachableSymbols.Remove(nonterminal);
+                    }
+                }
+            }
+            foreach (string symbol in nonReachableSymbols)
+            {
+                // remove productions containing the symbol
+                var symbolProductions = Rules.Where(p => p.RightSide.Contains(symbol) || p.LeftSide.Contains(symbol)).ToList();
+                foreach (Production production in symbolProductions)
+                {
+                    Rules.Remove(production);
+                }
+            }
+        }
     }
 }

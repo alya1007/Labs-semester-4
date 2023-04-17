@@ -7,7 +7,7 @@ namespace src
     {
         static void Main(string[] args)
         {
-            var nonTerminalSymbols = new List<string> { "S", "A", "B", "C", "E" };
+            var nonTerminalSymbols = new List<string> { "S", "A", "B", "C", "E", "G" };
             var terminalSymbols = new List<string> { "a", "b" };
             var startingSymbol = "S";
             var rules = new List<Production> {
@@ -21,10 +21,14 @@ namespace src
                 new Production(new string[] { "C" }, new string[] { "" }),
                 new Production(new string[] { "C" }, new string[] { "B", "A" }),
                 new Production(new string[] { "E" }, new string[] { "b", "B" }),
+                new Production(new string[] { "G" }, new string[] { "b", "B" }),
             };
             var normalizedGrammar = new NormalizedGrammar(nonTerminalSymbols, terminalSymbols, startingSymbol, rules);
             normalizedGrammar.RemoveEpsilonProductions();
-            // print all rules
+            normalizedGrammar.RemoveUnitProductions();
+            // normalizedGrammar.RemoveNonProductiveSymbols();
+            normalizedGrammar.RemoveUnreachableSymbols();
+            // print all the rules in the grammar
             foreach (var rule in normalizedGrammar.Rules)
             {
                 Console.WriteLine(rule.LeftSide[0] + " -> " + string.Join(" ", rule.RightSide));
