@@ -185,7 +185,7 @@ foreach (string symbol in nonProductiveSymbols)
 }
 ```
 
-### Remove non productive symbols
+### Remove unreachable symbols
 
 In this method, I first created a list, `nonReachableSymbols`, that has all the terminal symbols. Then, for each of the production in rules, is checked if there is at least one production that has the non-terminal symbol on the right side, then the symbol is removed from `nonReachableSymbols`.
 
