@@ -2,6 +2,8 @@ namespace src
 {
     class NormalizedGrammar : Grammar
     {
+        private int _symbolIndex = 0;
+
         public NormalizedGrammar(List<string> nonTerminalSymbols, List<string> terminalSymbols, string startingSymbol, List<Production> rules) : base(nonTerminalSymbols, terminalSymbols, startingSymbol, rules)
         {
         }
@@ -12,7 +14,121 @@ namespace src
             RemoveUnitProductions();
             RemoveNonProductiveSymbols();
             RemoveUnreachableSymbols();
+            ToChomskyNormalForm();
         }
+
+        private void ToChomskyNormalForm()
+        {
+            var rules = new List<Production>(Rules);
+            foreach (Production production in rules)
+            {
+                if (production.RightSide.Length > 2)
+                {
+                    var newSymbol = GetNewSymbol();
+                    var newProductions = SplitProduction(production, newSymbol);
+                    // add all newProductions to Rules and remove the old production
+                    Rules.AddRange(newProductions);
+                    Rules.Remove(production);
+                }
+                else if (production.RightSide.Length == 2)
+                {
+                    var leftSymbol = production.RightSide[0];
+                    var rightSymbol = production.RightSide[1];
+                    if (IsTerminal(leftSymbol) || IsTerminal(rightSymbol))
+                    {
+                        var newSymbol = GetNewSymbol();
+                        var newProductions = ConvertTerminalProduction(production, newSymbol);
+                        // add all newProductions to Rules and remove the old production
+                        Rules.AddRange(newProductions);
+                        Rules.Remove(production);
+                    }
+                }
+            }
+            RemoveDuplicateNormalForm();
+        }
+
+        private void RemoveDuplicateNormalForm()
+        {
+            var rules = new List<Production>(Rules);
+            var newRulesList = rules.Where(p => p.LeftSide[0][0] == 'Z');
+            for (int i = 0; i < newRulesList.Count(); i++)
+            {
+                for (int j = i + 1; j < newRulesList.Count(); j++)
+                {
+                    if (newRulesList.ElementAt(i).RightSide[0] == newRulesList.ElementAt(j).RightSide[0])
+                    {
+                        // remove production at index j
+                        Rules.Remove(newRulesList.ElementAt(j));
+                        var symbolToReplace = newRulesList.ElementAt(j).LeftSide[0];
+                        // in all the production from rules that contain in right side symbolToReplace replace it with the symbol from production at index i
+                        foreach (Production production in Rules)
+                        {
+                            for (int k = 0; k < production.RightSide.Length; k++)
+                            {
+                                if (production.RightSide[k] == symbolToReplace)
+                                {
+                                    production.RightSide[k] = newRulesList.ElementAt(i).LeftSide[0];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private string GetNewSymbol()
+        {
+            var newSymbol = "Z" + _symbolIndex;
+            _symbolIndex++;
+            return newSymbol;
+        }
+
+        private bool IsTerminal(string symbol)
+        {
+            return !NonTerminalSymbols.Contains(symbol);
+        }
+
+        private List<Production> SplitProduction(Production production, string newSymbol)
+        {
+            var newProductions = new List<Production>();
+
+            var rightSide = production.RightSide;
+            while (rightSide.Length > 2)
+            {
+                var leftSide = rightSide.Take(2).ToArray();
+                rightSide = new[] { newSymbol }.Concat(rightSide.Skip(2)).ToArray();
+                var newProduction = new Production(leftSide, rightSide);
+                newProductions.Add(newProduction);
+            }
+
+            var lastProduction = new Production(new[] { newSymbol }, rightSide);
+            newProductions.Add(lastProduction);
+
+            return newProductions;
+        }
+
+        private List<Production> ConvertTerminalProduction(Production production, string newSymbol)
+        {
+            var newProductions = new List<Production>();
+
+            var leftSide = production.RightSide[0];
+            var rightSide = production.RightSide[1];
+            if (IsTerminal(leftSide))
+            {
+                var temp = leftSide;
+                leftSide = rightSide;
+                rightSide = temp;
+            }
+
+            var newProduction1 = new Production(production.LeftSide, new[] { leftSide, newSymbol });
+            var newProduction2 = new Production(new[] { newSymbol }, new[] { rightSide });
+            newProductions.Add(newProduction1);
+            newProductions.Add(newProduction2);
+
+            return newProductions;
+        }
+
+
         private void RemoveEpsilonProductions()
         {
             List<Production> epsilonProductions = EpsilonProductionList();
