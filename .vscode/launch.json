@@ -2,16 +2,30 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run",
-            "type": "cppvsdbg",
+            "name": "Run Assembly Program",
+            "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/${fileBasenameNoExtension}.exe",
+            "program": "${workspaceFolder}/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "console": "internalConsole",
-            "preLaunchTask": "build"
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "nasm build",
+                    "text": "nasm -f elf64 -o ${fileBasenameNoExtension}.o ${fileBasenameNoExtension}.asm",
+                    "terminal": "integrated"
+                },
+                {
+                    "description": "ld link",
+                    "text": "ld -s -o ${fileBasenameNoExtension} ${fileBasenameNoExtension}.o",
+                    "terminal": "integrated"
+                }
+            ],
+            "preLaunchTask": null,
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }
