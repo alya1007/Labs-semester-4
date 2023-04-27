@@ -1,0 +1,6 @@
+command        : identifier{2} | identifier{2} option? argument (argument|StringLiteral)? |
+               identifier{2} option (option|StringLiteral)? | identifier{2} argument option argument?
+identifier     : [a-zA-Z0-9_\-]+
+argument       : [a-zA-Z0-9_\-]+
+option         : '--?\w+(?:=\w+)?'
+string_literal : '"' [^"]* '"'
