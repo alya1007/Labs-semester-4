@@ -85,7 +85,7 @@ if __name__ == "__main__":
     n = []
     kruskal_times = []
     prim_times = []
-    for i in range(100, 301, 100):
+    for i in range(100, 701, 100):
         n.append(i)
         G = generate_random_graph(i)
         kruskal_times.append(measure_time(kruskal, G))
