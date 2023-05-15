@@ -13,7 +13,7 @@ segment .data
     nl db 10, 0
     nl_len equ $- nl
 
-    menu_msg db "Select an action:", 10, "0: Random numbers", 10, "1: Concatenate strings", 10, "2: Add a prefix to a string", 10, "3: Integer to string", 10, "4: Remove spaces", 10, "5: Generate a random string", 10, "6: I need to add", 10, "7: Reverse string", 10, "8: I need to add", 10, "9: Generate a random number", 10, 10, 0
+    menu_msg db "Select an action:", 10, "0: Random numbers", 10, "1: Concatenate strings", 10, "2: Add a prefix to a string", 10, "3: Integer to string", 10, "4: Remove spaces", 10, "5: Generate a random string", 10, "6: Add sufix", 10, "7: Reverse string", 10, "8: Array sum", 10, "9: Generate a random number", 10, 10, 0
 
     invalid_msg db "Invalid choice! You chose ", 0
 
@@ -459,7 +459,7 @@ prompt:
     cmp eax, 5           ; If choice is 5
     je random_string_prompt ; Jump to random_string_prompt
     cmp eax, 6           ; If choice is 6
-    je random_string_prompt ; Jump to random_string_prompt
+    je add_suffix ; Jump to add_suffix
     cmp eax, 7           ; If choice is 7
     je reverse_string_prompt ; Jump to string_prefix_prompt
     cmp eax, 8           ; If choice is 8
@@ -503,41 +503,6 @@ random_prompt:
     pop rdi
     pop rcx
     jmp prompt          ; Jump to prompt
-
-
-
-str_len_prompt:
-    mov rdi, string_prompt_msg
-    call print
-
-    ; Read string
-    mov eax, SYS_READ
-    mov ebx, STDIN
-    mov ecx, string      ; Where to store input
-    mov edx, 255         ; Max length to read
-    int 0x80
-
-    ; Write string length message
-    mov rdi, string_len_msg
-    call print
-
-    mov rdi, string      ; Move string pointer into rdi
-    call str_len         ; Call str_len procedure
-
-    mov rdi, rax         ; Move string length into rdi
-    mov rsi, string      ; Move string pointer into rsi
-    call int_to_str      ; Call int_to_str procedure
-
-    ; Write string length
-    mov edx, eax
-    mov eax, SYS_WRITE
-    mov ebx, STDOUT
-    mov ecx, string
-    int 0x80
-
-    call print_newline
-
-    jmp prompt           ; Jump to prompt
 
 reverse_string_prompt:
     ; Write string prompt
@@ -767,79 +732,6 @@ array_sum_prompt:
 
     jmp prompt            ; Jump to prompt
 
-find_array_index_prompt:
-    mov rdi, find_element_msg
-    call print
-
-    ; Read element
-    mov eax, SYS_READ
-    mov ebx, STDIN
-    mov ecx, string      ; Where to store input
-    mov edx, 255         ; Max length to read
-    int 0x80
-
-    ; Convert string to int
-    mov rdi, string      ; Move string pointer into rdi
-    call str_to_int      ; Call str_to_int procedure
-
-    ; Move element to rdi
-
-    mov rdi, rax         ; Move element into rdi
-    ; Call find_array_index procedure
-    call find_array_index
-
-    ; Write result message
-    mov rdi, find_element_result_msg
-    call print
-
-    cmp rax, -1
-    je _find_array_index_prompt_not_found
-
-    ; Convert index to string
-    mov rdi, rax         ; Move index into rdi
-    mov rsi, string
-    call int_to_str
-
-    ; Print result
-    mov rdi, string
-    call print
-    call print_newline
-
-    jmp prompt            ; Jump to prompt
-
-    _find_array_index_prompt_not_found:
-    mov rdi, not_found_msg
-    call print
-
-    jmp prompt            ; Jump to prompt
-
-str_to_uppercase_prompt:
-    mov rdi, string_prompt_msg
-    call print
-
-    ; Read string
-    mov eax, SYS_READ
-    mov ebx, STDIN
-    mov ecx, string      ; Where to store input
-    mov edx, 255         ; Max length to read
-    int 0x80
-
-    ; Write result message
-    mov rdi, result_msg
-    call print
-
-    ; Convert string to uppercase
-    mov rdi, string      ; Move string pointer into rdi
-    mov rsi, string2
-    call str_to_uppercase
-
-    ; Print result
-    mov rdi, string2
-    call print
-    call print_newline
-
-    jmp prompt            ; Jump to prompt
-
 
 print_random_number:
     ; Call the random function to generate a random number
@@ -868,6 +760,36 @@ invalid:
 
     jmp prompt
 
+
+add_suffix:
+    ; Input: rdi = address of input string
+    ;        rsi = address of suffix string
+    ; Output: rdi = address of string containing result
+
+    push rdx        ; Save the value of rdx on the stack
+
+    ; Find the end of the input string
+    xor rax, rax   ; Clear rax
+    mov rcx, rdi   ; Copy the address of input string to rcx
+    call str_len   ; Get the length of the input string
+    add rdi, rax   ; Move rdi to the end of the input string
+
+    ; Copy the suffix string to the end of the input string
+    _add_suffix_copy:
+    mov dl, [rsi]   ; Copy the byte from the suffix string to dl
+    mov [rdi], dl   ; Copy dl to the end of the input string
+    inc rsi        ; Increment the suffix string pointer
+    inc rdi        ; Increment the input string pointer
+    cmp byte [rsi], 0   ; Compare the byte in rsi to 0 (end of suffix string)
+    jne _add_suffix_copy
+
+    ; Add a null terminator to the end of the result string
+    mov byte [rdi], 0
+
+    ; Restore the value of rdx
+    pop rdx
+
+    ret
 
 remove_spaces:
     ; Removes spaces from a string
