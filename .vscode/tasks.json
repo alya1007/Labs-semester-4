@@ -4,50 +4,25 @@
         {
             "label": "assemble",
             "type": "shell",
-            "command": "nasm -f win64 ${file} -o ${fileDirname}/${fileBasenameNoExtension}.obj",
-            "problemMatcher": [],
-            "options": {
-                "shell": {
-                    "executable": "C:\\Windows\\System32\\cmd.exe",
-                    "args": [
-                        "/c"
-                    ]
-                }
-            }
+            "command": "nasm -f elf64 ${file} -o ${fileDirname}/${fileBasenameNoExtension}.o"
         },
         {
             "label": "build",
             "type": "shell",
-            "command": "gcc ${fileDirname}/${fileBasenameNoExtension}.obj -o ${fileDirname}/${fileBasenameNoExtension}",
+            "command": "ld ${fileDirname}/${fileBasenameNoExtension}.o -o ${fileDirname}/${fileBasenameNoExtension}",
             "dependsOn": [
                 "assemble"
             ],
-            "problemMatcher": [],
-            "options": {
-                "shell": {
-                    "executable": "C:\\Windows\\System32\\cmd.exe",
-                    "args": [
-                        "/c"
-                    ]
-                }
-            }
+            "problemMatcher": []
         },
         {
             "label": "run",
             "type": "shell",
-            "command": "${fileDirname}/${fileBasenameNoExtension}.exe",
+            "command": "${fileDirname}/${fileBasenameNoExtension}",
             "dependsOn": [
                 "build"
             ],
-            "problemMatcher": [],
-            "options": {
-                "shell": {
-                    "executable": "C:\\Windows\\System32\\cmd.exe",
-                    "args": [
-                        "/c"
-                    ]
-                }
-            }
+            "problemMatcher": []
         }
     ]
 }
