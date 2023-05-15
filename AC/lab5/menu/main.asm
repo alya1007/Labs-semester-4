@@ -1,10 +1,12 @@
 section .data
     menu_msg db 10, 'Choose option:  ', 0
     func_msg db 'function'
-    str1 db 'Hello, ', 0
+    str1 db 'Hello ', 0
     str1_len equ $-str1
     str2 db 'you!', 0
     str2_len equ $-str2
+    str3 db '!', 0
+    str3_len equ $-str3
     result times 256 db 0
     section .text
     global _start
@@ -32,7 +34,7 @@ _start:
     cmp eax, 0
     je concat
     cmp eax, 1
-    je func2
+    je addAChar
     cmp eax, 2
     je func2
     cmp eax, 3
@@ -76,15 +78,30 @@ concat:
 
     jmp _start
 
-func1:
-    ; Call function 2
+addAChar:
+    ; Copy the first string to the result buffer
+    mov esi, str1
+    mov edi, result
+    mov ecx, str1_len
+    cld
+    rep movsb
+
+    ; Copy the second string to the result buffer
+    mov esi, str3
+    mov edi, result + str1_len
+    mov ecx, str3_len
+    cld
+    rep movsb
+
+    ; Display the concatenated string
     mov eax, 4
     mov ebx, 1
-    mov ecx, func_msg
-    mov edx, 8
+    mov ecx, result
+    mov edx, str1_len + str3_len
     int 0x80
-    ; Return to the menu
+
     jmp _start
+
 
 func2:
     ; Call function 2
