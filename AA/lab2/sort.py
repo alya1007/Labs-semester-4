@@ -36,12 +36,13 @@ def merge_sort(a):
 
 def quicksort(arr):
     import random
+
     # the array is already sorted and can be returned
     if len(arr) <= 1:
         return arr
 
     # generate a random pivot element from the input array.
-    pivot = arr[random.randint(0, len(arr)-1)]
+    pivot = arr[random.randint(0, len(arr) - 1)]
     left, equal, right = [], [], []
     for x in arr:
         if x < pivot:
@@ -63,6 +64,7 @@ def heap_sort(arr):
         # Starting from the last non-leaf node, heapify all nodes in the tree
         for i in range(n // 2 - 1, -1, -1):
             heapify(arr, n, i)
+
     # Heapify a subtree rooted at index i
 
     def heapify(arr, n, i):
@@ -98,8 +100,8 @@ def heap_sort(arr):
 
 def counting_sort(arr):
     # Find the range of the input array
-    max_val = float('-inf')
-    min_val = float('inf')
+    max_val = float("-inf")
+    min_val = float("inf")
     for val in arr:
         if val > max_val:
             max_val = val
@@ -127,6 +129,7 @@ def counting_sort(arr):
 
 def generate_random_array(size):
     import random
+
     arr = []
     for i in range(size):
         arr.append(round(random.uniform(-10000, 10000), 5))
@@ -135,6 +138,7 @@ def generate_random_array(size):
 
 def measure_time(func, arr):
     import time
+
     start = time.time()
     func(arr)
     end = time.time()
@@ -142,12 +146,12 @@ def measure_time(func, arr):
 
 
 def print_results(func, arr, i):
-    print("{:<6d} {:>10.5f}".format(
-        i, measure_time(func, arr)))
+    print("{:<6d} {:>10.5f}".format(i, measure_time(func, arr)))
 
 
 def plot_results(x, y):
     import matplotlib.pyplot as plt
+
     plt.plot(x, y)
     plt.xlabel("Array Size")
     plt.ylabel("Time in Seconds")
@@ -165,7 +169,6 @@ def show_results(x, array_list, func):
 
 
 def main():
-
     x = []
     y = []
     arrays = []
