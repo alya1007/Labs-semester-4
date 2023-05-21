@@ -1,122 +1,120 @@
+using System;
+using System.Collections.Generic;
 using ASTNodes;
 using src;
 
 namespace ParserNamespace
 {
-    class Parser
+    public class GitCommandParser
     {
-        private readonly List<Token> tokens;
-        private int position;
+        private readonly Lexer _lexer;
+        private readonly List<Token> _tokens;
+        private int _currentTokenIndex;
 
-        public Parser(List<Token> tokens)
+        public GitCommandParser(string input)
         {
-            this.tokens = tokens;
-            position = 0;
+            _lexer = new Lexer(input);
+            _tokens = _lexer.Tokenize();
+            _currentTokenIndex = 0;
         }
 
-        private bool IsAtEnd()
+        public ASTNode Parse()
         {
-            return position >= tokens.Count;
+            return ParseCommand();
         }
 
-        private Token Peek()
+        private ASTNode ParseCommand()
         {
-            return tokens[position];
-        }
-
-        private Token Advance()
-        {
-            if (!IsAtEnd())
+            if (Match(TokenType.Identifier) && _tokens[_currentTokenIndex].Value == "git")
             {
-                position++;
+                var gitToken = Consume(TokenType.Identifier); // Consume "git" command
+                var rootNode = new ASTNode(TokenType.Command, gitToken.Value, "command");
+
+                if (_currentTokenIndex < _tokens.Count && Match(TokenType.Identifier))
+                {
+                    var commandToken = Consume(TokenType.Identifier);
+                    var newNode = new ASTNode(TokenType.Command, commandToken.Value, "command");
+                    rootNode.AddChild(newNode);
+
+                    if (_currentTokenIndex < _tokens.Count)
+                    {
+                        var bodyNode = ParseBody();
+                        rootNode.AddChild(bodyNode);
+                    }
+
+                    return rootNode;
+                }
+
+                throw new Exception("Invalid command");
             }
-            return tokens[position - 1];
+
+            throw new Exception("Invalid command");
         }
 
-        private bool Check(TokenType type)
+        private ASTNode ParseBody()
         {
-            if (IsAtEnd())
+            var bodyNode = new ASTNode(TokenType.Command, null, "body");
+
+            while (_currentTokenIndex < _tokens.Count)
+            {
+                if (Match(TokenType.Option))
+                {
+                    var optionNode = new ASTNode(TokenType.Option, Consume(TokenType.Option).Value, "option");
+
+                    // Consume one or two arguments after the option
+                    if (Match(TokenType.Argument))
+                    {
+                        var argumentNode = new ASTNode(TokenType.Argument, Consume(TokenType.Argument).Value, "argument");
+                        optionNode.AddChild(argumentNode);
+                    }
+
+                    if (Match(TokenType.Argument))
+                    {
+                        var argumentNode = new ASTNode(TokenType.Argument, Consume(TokenType.Argument).Value, "argument");
+                        optionNode.AddChild(argumentNode);
+                    }
+
+                    bodyNode.AddChild(optionNode);
+                }
+                else if (Match(TokenType.Argument))
+                {
+                    // Consume additional arguments
+                    var argumentNode = new ASTNode(TokenType.Argument, Consume(TokenType.Argument).Value, "argument");
+                    bodyNode.AddChild(argumentNode);
+                }
+                else
+                {
+                    throw new Exception("Invalid token");
+                }
+            }
+
+            return bodyNode;
+        }
+
+
+
+
+        private bool Match(TokenType type)
+        {
+            if (_currentTokenIndex >= _tokens.Count)
             {
                 return false;
             }
-            return tokens[position].Type == type;
+
+            return _tokens[_currentTokenIndex].Type.Equals(type);
         }
 
-        private Token Consume(TokenType type, string? message = null)
-        {
-            if (Check(type))
-            {
-                return Advance();
-            }
-            throw new Exception(message);
-        }
 
-        private ASTNode CreateNode(Token token, string? name = null)
+        private Token Consume(TokenType type)
         {
-            var nodeName = name ?? token.Type.ToString();
-            return new ASTNode(token.Type, token.Value, nodeName);
-        }
+            if (Match(type))
+            {
+                var token = _tokens[_currentTokenIndex];
+                _currentTokenIndex++;
+                return token;
+            }
 
-        public void Parse()
-        {
-            if (tokens.Count == 0)
-            {
-                throw new Exception("No tokens to parse.");
-            }
-            if (tokens.Count > 5)
-            {
-                throw new Exception("Too many tokens to parse.");
-            }
-            ASTNode root = new RootNode(tokens.Select(token => token.Value).Aggregate((acc, token) => acc + " " + token));
-            ASTNode body = root.Children[0];
-            if (tokens[0].Value != "git")
-            {
-                throw new Exception($"Invalid command \"{tokens[0].Value}\". Expected: git.");
-            }
-            if (tokens.Count == 1)
-            {
-                throw new Exception("No command to parse.");
-            }
-            body.AddChild(CreateNode(tokens[0], "program"));
-            position++;
-            body.AddChild(CreateNode(Consume(TokenType.Identifier, $"Expected command instead of \"{tokens[position].Value}\"")));
-            if (tokens[position].Type == TokenType.Argument)
-            {
-                body.AddChild(CreateNode(Consume(TokenType.Argument)));
-                if (!IsAtEnd())
-                {
-                    if (tokens[position].Type == TokenType.Identifier)
-                    {
-                        throw new Exception($"Invalid argument \"{tokens[position].Value}\". Expected: option/argument/string literal.");
-                    }
-                    body.AddChild(CreateNode(Consume(tokens[position].Type)));
-                }
-                if (!IsAtEnd())
-                {
-                    if (tokens[position - 1].Type != TokenType.Option)
-                    {
-                        throw new Exception($"Invalid argument \"{tokens[position - 1].Value}\". Expected option.");
-                    }
-                    else
-                    {
-                        body.AddChild(CreateNode(Consume(TokenType.Argument, $"Expected argument instead of \"{tokens[position].Value}\"")));
-                    }
-                }
-
-            }
-            else if (tokens[position].Type == TokenType.Option)
-            {
-                body.AddChild(CreateNode(Consume(TokenType.Option)));
-            }
-            // output the children of the root node
-            foreach (var child in root.Children)
-            {
-                Console.WriteLine(child.Name);
-                foreach (var grandchild in child.Children)
-                {
-                    Console.WriteLine(grandchild.Name);
-                }
-            }
+            throw new Exception($"Unexpected token. Expected {type}");
         }
     }
 }

@@ -64,7 +64,17 @@ namespace src
                 {
                     throw new Exception("Invalid token");
                 }
+            }
 
+            if (tokens.Count > 2 && tokens[0].Type == TokenType.Identifier && tokens[1].Type == TokenType.Identifier)
+            {
+                for (int i = 2; i < tokens.Count; i++)
+                {
+                    if (tokens[i].Type != TokenType.Option && tokens[i].Type != TokenType.StringLiteral)
+                    {
+                        tokens[i].Type = TokenType.Argument;
+                    }
+                }
             }
 
             return tokens;

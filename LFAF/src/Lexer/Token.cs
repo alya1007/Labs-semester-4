@@ -2,13 +2,17 @@ namespace src
 {
     public enum TokenType
     {
+        Command,
         Identifier,
         Option,
-        StringLiteral
+        Argument,
+        StringLiteral,
+        Git // Added the "git" command
+
     }
     public class Token
     {
-        public TokenType Type { get; }
+        public TokenType Type { get; set; }
         public string Value { get; }
 
         public Token(TokenType type, string value)
