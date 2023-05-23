@@ -125,7 +125,7 @@ public ASTNode Parse()
     return ParseCommand();
 }
 ```
-#### ParseBody() method
+#### ParseCommand() method
 The `ParseCommand()` method is responsible for parsing a command in a Git command sequence. The method starts with checking if the current token matches the type `Identifier` and if its value is `git`. This condition ensures that the command sequence starts with the `git` keyword. If the condition is true, the method proceeds with parsing the command. Otherwise, it throws an exception. If the condition is true, the `git` token is consumed.
 
 A new `ASTNode` called `rootNode` is created with the type `TokenType.Command` and the value of the consumed `gitToken`. This node represents the root of the AST for the command.
