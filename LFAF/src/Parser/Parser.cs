@@ -74,6 +74,12 @@ namespace ParserNamespace
                         optionNode.AddChild(argumentNode);
                     }
 
+                    if (Match(TokenType.StringLiteral))
+                    {
+                        var stringLiteralNode = new ASTNode(TokenType.StringLiteral, Consume(TokenType.StringLiteral).Value, "string literal");
+                        optionNode.AddChild(stringLiteralNode);
+                    }
+
                     bodyNode.AddChild(optionNode);
                 }
                 else if (Match(TokenType.Argument))
@@ -90,9 +96,6 @@ namespace ParserNamespace
 
             return bodyNode;
         }
-
-
-
 
         private bool Match(TokenType type)
         {
