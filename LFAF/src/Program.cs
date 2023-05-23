@@ -9,7 +9,7 @@ namespace src
     {
         static void Main(string[] args)
         {
-            string input = "git push origin branch-name/file.txt";
+            string input = "git push origin master";
             var parser = new GitCommandParser(input);
             ASTNode root = parser.Parse();
 
